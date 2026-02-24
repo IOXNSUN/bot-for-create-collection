@@ -1,148 +1,16 @@
-🎯 Анализ Postman Collection Generator Bot
-Основное назначение:
-Автоматизация создания Postman-коллекций для тестирования API CPA (Cost Per Action) и SKIP-CPA операций.
+# bot-for-create-collection
 
-🚀 Возможности бота:
-1. Генерация Postman-коллекций:
-Шаблонизация коллекций Postman (JSON формат)
+## О проекте
+Telegram-бот для создания коллекций (например, Postman). Автоматизирует рутинную работу.
 
-Автоматическая подстановка merchant_id и account_id
-
-Два типа коллекций: CPA и SKIP_CPA
-
-Сохранение в формате {chat_id}_{type}_{uuid}.postman_collection.json
-
-2. Безопасность:
-Экранирование HTML в сообщениях
-
-Автоматическая очистка временных файлов
-
-Валидация входных данных
-
-Логирование всех операций
-
-3. Пользовательский интерфейс:
-Inline-кнопки для выбора типа коллекции
-
-Пошаговый wizard (merchant_id → account_id)
-
-Автоматическая отправка готового файла
-
-Обработка ошибок с понятными сообщениями
-
-4. Интеграции:
-Работа с Postman JSON форматом
-
-Подготовка коллекций для тестирования API платежных систем
-
-Автоматизация рутинных задач тестировщиков
-
-🛠 Технологический стек:
-Core:
-Python 3 (основной язык)
-
-python-telegram-bot (Telegram Bot API)
-
-JSON (работа с Postman коллекциями)
-
-Библиотеки:
-json - парсинг и генерация JSON
-
-logging - структурированное логирование
-
-os + uuid - работа с файлами и уникальные имена
-
-html - экранирование для безопасности
-
-Архитектура:
-Состояния пользователей (user_states словарь)
-
-Шаблонизация (template-based generation)
-
-Очистка временных файлов (finally блок)
-
-Модульные функции (create_collection_from_template)
+## Технологии
+- Python 3.10
+- Telegram Bot API
+- CI/CD через GitHub Actions
 
 
-📊 Ключевые особенности кода:
-Архитектурные решения:
-python
-# 1. Шаблонизация Postman коллекций
-def create_collection_from_template(template_name, merchant_id, account_id, output_path):
-    with open(template_path, "r", encoding="utf-8") as f:
-        collection = json.load(f)
-    
-    # Автоматическая подстановка переменных
-    for item in collection.get("variable", []):
-        if item.get("key") == "merch_id":
-            item["value"] = merchant_id
-        if item.get("key") == "account_id":
-            item["value"] = account_id
+## Установка и запуск
 
-# 2. Безопасная отправка файлов
-caption = f"Коллекция {escape_html(typ)} (merchant_id={escape_html(state['merchant'])}, account_id={escape_html(state['account'])}"
-bot.send_document(chat_id, doc, caption=caption, parse_mode=None)
-
-# 3. Очистка временных файлов
-finally:
-    try:
-        os.remove(out_path)
-    except Exception:
-        pass
-UX/UI решения:
-Inline-кнопки вместо текстового меню
-
-Пошаговая форма (тип → merchant_id → account_id)
-
-Автоматическая отправка файла по завершении
-
-Отмена операции командой /cancel
-
-Безопасность:
-Экранирование HTML во всех пользовательских данных
-
-Удаление временных файлов после отправки
-
-Валидация путей и обработка FileNotFoundError
-
-Логирование всех действий для аудита
-
-🔧 Как это используется в работе:
-Сценарий использования:
-text
-1. Тестировщик: /start
-2. Бот: "Выберите тип коллекции:" [CPA] [SKIP_CPA]
-3. Тестировщик: Выбирает SKIP_CPA
-4. Бот: "Введите merchant_id:"
-5. Тестировщик: 12345
-6. Бот: "Введите account_id:"
-7. Тестировщик: 67890
-8. Бот: Отправляет готовую Postman-коллекцию .json файл
-Результат:
-Готовая Postman-коллекция с подставленными merchant_id и account_id
-
-Файл готов к импорту в Postman
-
-Все API-запросы уже настроены для тестирования
-
-
-Telegram-бот для автоматизации подготовки тестовых данных платежных систем
-
-Сократил время подготовки тестов
-
-Автоматизировал генерацию Postman-коллекций для CPA/SKIP-CPA операций
-
-
-Технологии: Python, Telegram Bot API, JSON, Postman, Flask, Docker
-
-
-🎯 Итог:
-Это профессиональный инструмент для автоматизации работы тестировщиков\техподддержки, который:
-
-Экономит время на подготовку тестов
-
-Стандартизирует процесс тестирования
-
-Упрощает работу с платежными API
-
-Демонстрирует понимание как API-тестирования, так и разработки ботов
+git clone https://github.com/IOXNSUN/bot-for-create-collection.git
+cd bot-for-create-collection
+python bot.py
